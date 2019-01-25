@@ -1,0 +1,25 @@
+<!DOCTYPE html><html xmlns=http://www.w3.org/1999/xhtml><head><title></title><meta http-equiv=X-UA-Compatible content="IE=edge"></head><body><script language=javascript>/* IE11 Fix for SP2010 */
+        if (typeof (UserAgentInfo) != 'undefined' && !window.addEventListener) {
+            UserAgentInfo.strBrowser = 1;
+        }</script><script src=./app/lib/js/oidc-client.min.js></script><script>var config = {
+            client_id: "5A523274-7C78-4030-BD87-B7BB363FAD35"
+            , redirect_uri: window.location.protocol + "//" + window.location.host + "/sso.html"
+            //, authority: "http://test.lvsts.lanvera.com/identity"
+            , authority: "https://stage.lvsts.lanvera.com/identity"
+        };
+        Oidc.Log.logger = console;
+        Oidc.Log.level = Oidc.Log.INFO;
+        var mgr = new Oidc.UserManager(config);
+        mgr.signinRedirectCallback().then(function (user) {
+            var hash = window.location.hash.substr(1);
+            var result = hash.split('&').reduce(function (result, item) {
+                var parts = item.split('=');
+                result[parts[0]] = parts[1];
+                return result;
+            }, {});
+            //alert(user);
+            window.location = window.location.protocol + "//" + window.location.host;
+            console.log(result);
+        }).catch(function (error) {
+            console.log(error);
+        });</script></body></html>
